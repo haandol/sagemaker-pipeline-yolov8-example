@@ -34,12 +34,12 @@ if __name__ == '__main__':
     # modify data conf
     data_conf_path = '/opt/ml/code/data.yaml' 
     with open(data_conf_path, 'r') as fp:
-        data = yaml.load(fp.read())
+        data = yaml.load(fp.read(), Loader=yaml.BaseLoader)
         data['train'] = str(Path(args.train) / 'images')
         data['val'] = str(Path(args.valid) / 'images')
 
     with open(data_conf_path, 'w') as fp:
-        fp.write(yaml.dump(data, fp))
+        yaml.dump(data, fp)
         logger.info(f'Updated data conf: {json.dumps(data, indent=2)}')
 
     # Training
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     logger.info(f'Saving model to {output_pt_path}...')
 
     model = YOLO(best_pt_path)
-    with open(output_pt_path, 'wb') as f:
-        torch.save(model.model.state_dict(), f)
+    with open(output_pt_path, 'wb') as fp:
+        torch.save(model.model.state_dict(), fp)
 
     logger.info('Training complete!')
