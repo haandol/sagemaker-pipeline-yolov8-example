@@ -31,12 +31,12 @@ if __name__ == '__main__':
     model = YOLO(f'{args.model}.pt')
 
     # modify data conf
-    data_conf_path = str(Path(args.train).parent / 'data.yaml')
+    data_conf_path = os.path.join('.', 'data.yaml')
     logger.info(f'Loading data conf from {data_conf_path}...')
     with open(data_conf_path, 'r') as fp:
         data = yaml.load(fp.read())
         data['train'] = str(Path(args.train) / 'images')
-        data['valid'] = str(Path(args.valid) / 'images')
+        data['val'] = str(Path(args.valid) / 'images')
 
     with open(data_conf_path, 'w') as fp:
         fp.write(yaml.dump(data, fp))

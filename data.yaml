@@ -1,0 +1,6 @@
+train: '/home/ec2-user/SageMaker/datasets/pikachu/train/images'
+valid: '/home/ec2-user/SageMaker/datasets/pikachu/valid/images'
+
+# class names
+names:
+  0: 'pikachu'

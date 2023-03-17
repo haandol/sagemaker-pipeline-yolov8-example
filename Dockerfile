@@ -3,5 +3,6 @@ FROM  --platform=linux/amd64 763104351884.dkr.ecr.ap-northeast-2.amazonaws.com/p
 RUN pip3 install ultralytics
 
 COPY train.py /opt/ml/code/train.py
+COPY data.yaml /opt/ml/code/data.yaml
 
 ENV SAGEMAKER_PROGRAM train.py
