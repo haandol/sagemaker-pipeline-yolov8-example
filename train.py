@@ -1,9 +1,12 @@
 import os
 import yaml
 import torch
+import logging
 import argparse
 from pathlib import Path
 from ultralytics import YOLO
+
+logger = logging.getLogger(__name__)
 
 
 if __name__ == '__main__':
@@ -28,17 +31,19 @@ if __name__ == '__main__':
     model = YOLO(f'{args.model}.pt')
 
     # modify data conf
-    data_conf_path = os.path.join(args.train, 'data.yaml')
+    data_conf_path = str(Path(args.train).parent / 'data.yaml')
+    logger.info(f'Loading data conf from {data_conf_path}...')
     with open(data_conf_path, 'r') as fp:
         data = yaml.load(fp.read())
-        data['train'] = str(Path(args.train).parent)
-        data['valid'] = str(Path(args.valid).parent)
+        data['train'] = str(Path(args.train) / 'images')
+        data['valid'] = str(Path(args.valid) / 'images')
 
     with open(data_conf_path, 'w') as fp:
         fp.write(yaml.dump(data, fp))
 
     # Training
     device = ','.join(','.join(map(lambda x: str(x), range(1)))) if torch.cuda.is_available() else 'cpu'
+    logger.info(f'Training on device: {device}')
     model.train(
         data=data_conf_path,
         name=args.experiment,
@@ -53,7 +58,10 @@ if __name__ == '__main__':
     # Save the model as PyTorch model
     best_pt_path = os.path.join('runs', 'detect', args.experiment, 'weights', 'best.pt')
     output_pt_path = os.path.join(args.model_dir, 'model.pth')
+    logger.info(f'Saving model to {output_pt_path}...')
 
     model = YOLO(best_pt_path)
     with open(output_pt_path, 'wb') as f:
         torch.save(model.model.state_dict(), f)
+
+    logger.info('Training complete!')
