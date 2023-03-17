@@ -15,7 +15,7 @@ def model_fn(model_dir: str):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     logger.info(f'loading model on device: {device}')
     
-    model = YOLO(os.path.join(model_dir, 'model.pth'))
+    model = YOLO(os.path.join(model_dir, 'model.pt'))
     model.to(device)
     model.model.eval()
     return model
