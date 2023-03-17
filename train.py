@@ -2,6 +2,7 @@ import os
 import yaml
 import json
 import torch
+import shutil
 import logging
 import argparse
 from pathlib import Path
@@ -58,11 +59,9 @@ if __name__ == '__main__':
 
     # Save the model as PyTorch model
     best_pt_path = os.path.join('runs', 'detect', args.experiment, 'weights', 'best.pt')
-    output_pt_path = os.path.join(args.model_dir, 'model.pth')
-    logger.info(f'Saving model to {output_pt_path}...')
+    output_pt_path = os.path.join(args.model_dir, 'model.pt')
+    logger.info(f'Copying model from {best_pt_path} to {output_pt_path}...')
 
-    model = YOLO(best_pt_path)
-    with open(output_pt_path, 'wb') as fp:
-        torch.save(model.model.state_dict(), fp)
+    shutil.copyfile(best_pt_path, output_pt_path)
 
     logger.info('Training complete!')
