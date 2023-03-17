@@ -9,7 +9,9 @@ account=$(aws sts get-caller-identity --query Account --output text)
 region=$(aws configure get region)
 region=${region:-ap-northeast-2}
 
-fullname="${account}.dkr.ecr.${region}.amazonaws.com/${algorithm_name}:latest"
+commit_tag=$(git rev-parse --short=10 HEAD)
+
+fullname="${account}.dkr.ecr.${region}.amazonaws.com/${algorithm_name}:${commit_tag}"
 
 # If the repository doesn't exist in ECR, create it.
 
