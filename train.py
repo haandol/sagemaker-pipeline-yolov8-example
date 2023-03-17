@@ -36,7 +36,7 @@ if __name__ == '__main__':
         data = yaml.load(fp.read())
         data['train'] = str(Path(args.train).parent)
         data['valid'] = str(Path(args.valid).parent)
-    
+
     with open(data_conf_path, 'w') as fp:
         fp.write(yaml.dump(data, fp))
 
