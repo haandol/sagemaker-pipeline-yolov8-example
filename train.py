@@ -24,11 +24,8 @@ if __name__ == '__main__':
 
     args, _ = parser.parse_known_args()
 
-    # Set the device
-    device = ','.join(','.join(map(lambda x: str(x), range(1)))) if torch.cuda.is_available() else 'cpu'
-
     # Load the model
-    model = YOLO(f'{args.model}.pt', device=device)
+    model = YOLO(f'{args.model}.pt')
 
     # modify data conf
     data_conf_path = os.path.join(args.train, 'data.yaml')
@@ -41,6 +38,7 @@ if __name__ == '__main__':
         fp.write(yaml.dump(data, fp))
 
     # Training
+    device = ','.join(','.join(map(lambda x: str(x), range(1)))) if torch.cuda.is_available() else 'cpu'
     model.train(
         data=data_conf_path,
         name=args.experiment,
@@ -48,6 +46,7 @@ if __name__ == '__main__':
         batch=args.batch,
         imgsz=args.imgsz,
         seed=args.seed,
+        device=device,
         exist_ok=True,
     )
 
