@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # The name of our algorithm
-algorithm_name=yolov8-cpu
+algorithm_name=yolov8-training-gpu
 
 account=$(aws sts get-caller-identity --query Account --output text)
 
