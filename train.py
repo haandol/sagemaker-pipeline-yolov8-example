@@ -5,8 +5,6 @@ import argparse
 from pathlib import Path
 from ultralytics import YOLO
 
-# Set the device
-device = ','.join(','.join(map(lambda x: str(x), range(1)))) if torch.cuda.is_available() else 'cpu'
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -26,6 +24,8 @@ if __name__ == '__main__':
 
     args, _ = parser.parse_known_args()
 
+    # Set the device
+    device = ','.join(','.join(map(lambda x: str(x), range(1)))) if torch.cuda.is_available() else 'cpu'
 
     # Load the model
     model = YOLO(f'{args.model}.pt', device=device)
@@ -48,7 +48,6 @@ if __name__ == '__main__':
         batch=args.batch,
         imgsz=args.imgsz,
         seed=args.seed,
-        device=device,
         exist_ok=True,
     )
 
