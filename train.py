@@ -1,5 +1,6 @@
 import os
 import yaml
+import json
 import torch
 import logging
 import argparse
@@ -31,8 +32,7 @@ if __name__ == '__main__':
     model = YOLO(f'{args.model}.pt')
 
     # modify data conf
-    data_conf_path = os.path.join('.', 'data.yaml')
-    logger.info(f'Loading data conf from {data_conf_path}...')
+    data_conf_path = '/opt/ml/code/data.yaml' 
     with open(data_conf_path, 'r') as fp:
         data = yaml.load(fp.read())
         data['train'] = str(Path(args.train) / 'images')
@@ -40,6 +40,7 @@ if __name__ == '__main__':
 
     with open(data_conf_path, 'w') as fp:
         fp.write(yaml.dump(data, fp))
+        logger.info(f'Updated data conf: {json.dumps(data, indent=2)}')
 
     # Training
     device = ','.join(','.join(map(lambda x: str(x), range(1)))) if torch.cuda.is_available() else 'cpu'
