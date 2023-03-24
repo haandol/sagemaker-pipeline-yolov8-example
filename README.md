@@ -6,14 +6,18 @@
 - AWS CLI
 - Jupyter Notebook (for testing)
 
-# Build
+# Create sagemaker studio
 
-```bash
-./build_and_push.sh
-```
+https://github.com/haandol/cdk-sagemaker-studio
+
+# Create sagemaker pipeline for training model
+
+Run [pikachu_sagemaker.ipynb](/notebook/pikachu_sagemaker.ipynb]
+
+# Create codepipeline for deploying model
+
+WIP
 
 # Test
 
-run `training.ipynb` in jupyter notebook
-
-and check out sagemaker training job in AWS console
+WIP
