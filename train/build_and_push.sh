@@ -9,9 +9,9 @@ account=$(aws sts get-caller-identity --query Account --output text)
 region=$(aws configure get region)
 region=${region:-ap-northeast-2}
 
-commit_tag=$(git rev-parse --short=10 HEAD)
+image_tag=latest
 
-fullname="${account}.dkr.ecr.${region}.amazonaws.com/${algorithm_name}:${commit_tag}"
+fullname="${account}.dkr.ecr.${region}.amazonaws.com/${algorithm_name}:${image_tag}"
 
 # If the repository doesn't exist in ECR, create it.
 
@@ -23,10 +23,11 @@ then
 fi
 
 # Get the login command from ECR and execute it directly
-$(aws ecr get-login --region ${region} --no-include-email)
+aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account}.dkr.ecr.${region}.amazonaws.com
 
 # Get the login command from ECR in order to pull down the SageMaker PyTorch image
-$(aws ecr get-login --registry-ids 763104351884 --region ${region} --no-include-email)
+aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin 763104351884.dkr.ecr.${region}.amazonaws.com
+
 
 # Build the docker image locally with the image name and then push it to ECR
 # with the full name.
