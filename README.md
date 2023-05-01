@@ -6,9 +6,13 @@
 - AWS CLI
 - Jupyter Notebook (for testing)
 
-# Download dataset
+# Using dataset
 
-download [Pikachu Detection](https://universe.roboflow.com/oklahoma-state-university-jyn38/pikachu-detection) from Roboflow
+[Pikachu Detection](https://universe.roboflow.com/oklahoma-state-university-jyn38/pikachu-detection) by Roboflow
+
+# Build and push training image on your ECR
+
+run `./build_and_push.sh` on your terminal
 
 # Create sagemaker studio
 
@@ -18,10 +22,6 @@ https://github.com/haandol/cdk-sagemaker-studio
 
 Run [pikachu_sagemaker.ipynb](/notebook/pikachu_sagemaker.ipynb)
 
-# Create codepipeline for deploying model
-
-WIP
-
 # Test
 
-WIP
+Run [pikachu_sagemaker.ipynb](/notebook/pikachu_sagemaker.ipynb)
