@@ -9,9 +9,12 @@ account=$(aws sts get-caller-identity --query Account --output text)
 region=$(aws configure get region)
 region=${region:-ap-northeast-2}
 
-commit_tag=$(git rev-parse --short=10 HEAD)
+fullname="haandol/${algorithm_name}:latest"
 
-fullname="${account}.dkr.ecr.${region}.amazonaws.com/${algorithm_name}:${commit_tag}"
+# Uncomment below section if you want to use private registry
+# commit_tag=$(git rev-parse --short=10 HEAD)
+# fullname="${account}.dkr.ecr.${region}.amazonaws.com/${algorithm_name}:${commit_tag}"
+# aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account}.dkr.ecr.${region}.amazonaws.com
 
 # If the repository doesn't exist in ECR, create it.
 
@@ -30,8 +33,5 @@ aws ecr get-login-password --region ${region} | docker login --username AWS --pa
 
 docker build  -t ${algorithm_name} . --build-arg REGION=${region}
 docker tag ${algorithm_name} ${fullname}
-
-# Get the login command from ECR and execute it directly
-aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account}.dkr.ecr.${region}.amazonaws.com
 
 docker push ${fullname}
