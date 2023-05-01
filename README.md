@@ -8,7 +8,7 @@
 
 # Download dataset
 
-download [Poke10](https://universe.roboflow.com/yuta-wada/poke10) from Roboflow
+download [Pikachu Detection](https://universe.roboflow.com/oklahoma-state-university-jyn38/pikachu-detection) from Roboflow
 
 # Create sagemaker studio
 
